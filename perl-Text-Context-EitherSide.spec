@@ -1,19 +1,18 @@
 %define upstream_name    Text-Context-EitherSide
 %define upstream_version 1.4
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    Get n words either side of search keywords
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/Text/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	Get n words either side of search keywords
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/Text/%{upstream_name}-%{upstream_version}.tar.gz
 
-
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildArch:	noarch
 
 %description
 Suppose you have a large piece of text - typically, say, a web page or a
@@ -31,24 +30,29 @@ got to make sure that the list doesn't overlap. If you have
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
-%{make}
+perl Makefile.PL INSTALLDIRS=vendor
+%make
 
 %check
-%{make} test
+%make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc Changes README
 %{_mandir}/man3/*
-%perl_vendorlib/*
+%{perl_vendorlib}/*
+
+%changelog
+* Sun Apr 17 2011 Funda Wang <fwang@mandriva.org> 1.400.0-2mdv2011.0
++ Revision: 654321
+- rebuild for updated spec-helper
+
+* Sun Nov 29 2009 Jérôme Quelin <jquelin@mandriva.org> 1.400.0-1mdv2011.0
++ Revision: 471149
+- import perl-Text-Context-EitherSide
 
 
+* Sun Nov 29 2009 cpan2dist 1.4-1mdv
+- initial mdv release, generated with cpan2dist
